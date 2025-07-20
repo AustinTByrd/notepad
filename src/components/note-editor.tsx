@@ -148,12 +148,16 @@ export function NoteEditor({ slug }: NoteEditorProps) {
     
     setIsCreatingNew(true)
     const memorableSlug = generateMemorableSlug()
-    router.push(`/${memorableSlug}`)
     
-    // Reset the flag after a short delay
+    // Small delay to ensure the transition is visible
+    setTimeout(() => {
+      router.push(`/${memorableSlug}`)
+    }, 50)
+    
+    // Reset the flag after the transition completes
     setTimeout(() => {
       setIsCreatingNew(false)
-    }, 1000)
+    }, 1200)
   }
 
   // Check for missing environment variables
@@ -235,7 +239,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`}
         </span>
         <button
           onClick={createNewNote}
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          disabled={isCreatingNew}
+          className={`text-sm transition-all duration-200 ${
+            isCreatingNew 
+              ? 'text-foreground/50' 
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
         >
           New Note
         </button>

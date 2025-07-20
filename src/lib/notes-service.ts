@@ -1,11 +1,12 @@
 import { createClient } from './supabase'
+import { themes } from './themes'
 import type { Database, TiptapContent } from './database.types'
 
 type Note = Database['public']['Tables']['notes']['Row']
 
 const getRandomTheme = () => {
-  const themes = ['default', 'dark', 'light', 'sepia', 'monokai', 'dracula']
-  return themes[Math.floor(Math.random() * themes.length)]
+  const themeNames = themes.map(theme => theme.name)
+  return themeNames[Math.floor(Math.random() * themeNames.length)]
 }
 
 // Default Tiptap content structure for new notes
