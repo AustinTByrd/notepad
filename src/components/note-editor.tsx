@@ -20,6 +20,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
   const { setTheme } = useTheme()
   const router = useRouter()
   const [isCreatingNew, setIsCreatingNew] = useState(false) // Prevent rapid clicks
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   // Configure Tiptap editor
   const editor = useEditor({
@@ -102,11 +103,13 @@ export function NoteEditor({ slug }: NoteEditorProps) {
       },
     },
     immediatelyRender: false,
-  }, [slug]) // Recreate editor when slug changes to ensure clean state
+  }, []) // Don't recreate editor when slug changes - handle content updates in useEffect
 
   // Update editor content when note content changes
   useEffect(() => {
     if (!editor || !content) return
+    
+    setIsTransitioning(true)
     
     const currentEditorContent = editor.getJSON()
     const contentChanged = JSON.stringify(currentEditorContent) !== JSON.stringify(content)
@@ -115,9 +118,12 @@ export function NoteEditor({ slug }: NoteEditorProps) {
       // Small delay to ensure editor is fully ready
       const timer = setTimeout(() => {
         editor.commands.setContent(content, { emitUpdate: false })
+        setIsTransitioning(false)
       }, 10)
       
       return () => clearTimeout(timer)
+    } else {
+      setIsTransitioning(false)
     }
   }, [editor, content, slug])
 
@@ -205,7 +211,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`}
               editor={editor} 
               className="w-full rounded-b-lg [&_.ProseMirror]:min-h-96 [&_.ProseMirror]:outline-none"
             />
-            {!editor?.getText() && (
+            {!editor?.getText() && !isLoading && !isTransitioning && (
               <div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">
                 Start typing your notes here...
               </div>
