@@ -182,6 +182,20 @@ export function useNote(slug: string) {
     setError(null) // Clear any previous errors when user starts typing
   }, [])
 
+  const updateTheme = useCallback(async (newTheme: string) => {
+    if (!note) return
+
+    try {
+      const updatedNote = await notesService.current.updateTheme(slug, newTheme)
+      if (updatedNote) {
+        setNote(updatedNote)
+        setTheme(newTheme)
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update theme')
+    }
+  }, [note, slug])
+
   return {
     note,
     content,
@@ -191,5 +205,6 @@ export function useNote(slug: string) {
     showSaved,
     error,
     updateContent,
+    updateTheme,
   }
 } 

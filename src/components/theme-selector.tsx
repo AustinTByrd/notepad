@@ -4,7 +4,11 @@ import { useTheme } from "@/lib/themes";
 import { Palette, Check, ChevronDown } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-export function ThemeSelector() {
+interface ThemeSelectorProps {
+  updateTheme?: (theme: string) => Promise<void>;
+}
+
+export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
   const { currentTheme, themes, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -83,9 +87,20 @@ export function ThemeSelector() {
               {themes.map((theme) => (
                 <button
                   key={theme.name}
-                  onClick={() => {
+                  onClick={async () => {
+                    // First update the visual theme
                     setTheme(theme.name);
                     setIsOpen(false);
+                    
+                    // Then update the database if we're in a note context
+                    if (updateTheme) {
+                      try {
+                        await updateTheme(theme.name);
+                      } catch (error) {
+                        console.error('Failed to save theme to database:', error);
+                        // Theme is still applied visually even if database update fails
+                      }
+                    }
                   }}
                   className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-accent transition-colors"
                 >

@@ -16,7 +16,7 @@ interface NoteEditorProps {
 }
 
 export function NoteEditor({ slug }: NoteEditorProps) {
-  const { content, theme, isLoading, isSaving, showSaved, error, updateContent } = useNote(slug)
+  const { content, theme, isLoading, isSaving, showSaved, error, updateContent, updateTheme } = useNote(slug)
   const { setTheme } = useTheme()
   const router = useRouter()
   const [isCreatingNew, setIsCreatingNew] = useState(false) // Prevent rapid clicks
@@ -193,7 +193,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`}
     <>
       {/* Theme Controls */}
       <div className="absolute top-4 right-4 flex items-center gap-3">
-        <ThemeSelector />
+        <ThemeSelector updateTheme={updateTheme} />
         <ThemeToggle />
       </div>
       

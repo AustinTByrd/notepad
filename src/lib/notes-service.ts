@@ -119,4 +119,28 @@ export class NotesService {
       // Don't throw for last_accessed updates - it's not critical
     }
   }
+
+  async updateTheme(slug: string, theme: string): Promise<Note | null> {
+    const now = new Date().toISOString()
+
+    try {
+      const { data, error } = await this.supabase
+        .from('notes')
+        .update({ 
+          theme,
+          updated_at: now 
+        })
+        .eq('slug', slug)
+        .select()
+        .single()
+
+      if (error) {
+        throw new Error(`Failed to update note theme: ${error.message}`)
+      }
+
+      return data
+    } catch (err) {
+      throw new Error(err instanceof Error ? err.message : 'Failed to update note theme')
+    }
+  }
 } 
