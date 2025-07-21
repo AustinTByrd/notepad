@@ -3,6 +3,7 @@
 import { useTheme } from "@/lib/themes";
 import { Palette } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 interface ThemeSelectorProps {
   updateTheme?: (theme: string) => Promise<void>;
@@ -49,20 +50,21 @@ export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
 
   if (!mounted) {
     return (
-      <button className="p-2 rounded-lg border border-border bg-background hover:bg-accent transition-colors">
+      <Button variant="ghost" size="icon" className="p-2">
         <Palette className="h-5 w-5" />
-      </button>
+      </Button>
     );
   }
 
   const currentThemeConfig = themes.find(theme => theme.name === currentTheme);
 
   return (
-    <button
+    <Button
+      variant="ghost"
+      size="icon"
       onClick={cycleToNextTheme}
-      className="p-2 rounded-lg border border-border bg-background hover:bg-accent active:scale-95 transition-all duration-150"
-      aria-label={`Switch theme (current: ${currentThemeConfig?.displayName || "Default"})`}
-      title={`Current: ${currentThemeConfig?.displayName || "Default"}. Click to cycle themes.`}
+      className="p-2 active:scale-95 transition-all duration-150"
+      aria-label={`Switch theme`}
     >
       <div className={`transition-all duration-150 ${
         isTransitioning 
@@ -71,6 +73,6 @@ export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
       }`}>
         <Palette className="h-5 w-5" />
       </div>
-    </button>
+    </Button>
   );
 } 

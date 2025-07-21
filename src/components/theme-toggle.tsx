@@ -3,6 +3,7 @@
 import { useTheme } from "@/lib/themes";
 import { Moon, Sun, Monitor } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
   const { mode, setMode } = useTheme();
@@ -16,9 +17,9 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <button className="p-2 rounded-lg border border-border bg-background hover:bg-accent transition-colors">
+      <Button variant="ghost" size="icon" className="p-2">
         <Sun className="h-5 w-5" />
-      </button>
+      </Button>
     );
   }
 
@@ -49,9 +50,11 @@ export function ThemeToggle() {
   };
 
   return (
-    <button
+    <Button
+      variant="ghost"
+      size="icon"
       onClick={toggleMode}
-      className="p-2 rounded-lg border border-border bg-background hover:bg-accent active:scale-95 transition-all duration-150"
+      className="p-2 active:scale-95 transition-all duration-150"
       aria-label="Toggle light/dark mode"
     >
       <div className={`transition-all duration-150 ${
@@ -61,6 +64,6 @@ export function ThemeToggle() {
       }`}>
         {getIcon()}
       </div>
-    </button>
+    </Button>
   );
 } 

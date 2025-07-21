@@ -10,6 +10,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import type { TiptapContent } from "@/lib/database.types"
 import { generateMemorableSlug } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 
 interface NoteEditorProps {
   slug: string
@@ -21,6 +22,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
   const router = useRouter()
   const [isCreatingNew, setIsCreatingNew] = useState(false) // Prevent rapid clicks
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [showCopied, setShowCopied] = useState(false)
 
   // Configure Tiptap editor
   const editor = useEditor({
@@ -185,7 +187,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
               className="w-full rounded-b-lg [&_.ProseMirror]:min-h-96 [&_.ProseMirror]:outline-none"
             />
             {!editor?.getText() && !isLoading && !isTransitioning && (
-              <div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">
+              <div className="absolute top-4 left-4 text-muted-foreground/50 pointer-events-none">
                 What's on your mind...
               </div>
             )}
@@ -213,12 +215,34 @@ export function NoteEditor({ slug }: NoteEditorProps) {
       </main>
       
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <span className="text-sm text-muted-foreground">
-          {slug}
-        </span>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
           <ThemeSelector updateTheme={updateTheme} />
           <ThemeToggle />
+        </div>
+        <div className="w-px h-4 bg-border"></div>
+        <div className="relative">
+          <button
+            onClick={() => {
+              const url = `${window.location.origin}/${slug}`
+              navigator.clipboard.writeText(url)
+              setShowCopied(true)
+              setTimeout(() => setShowCopied(false), 2000)
+            }}
+            className="cursor-pointer transition-all duration-200 active:scale-95"
+          >
+            <Badge variant="outline" className="text-xs text-muted-foreground hover:text-foreground px-2.5 py-1 cursor-default">
+              {slug}
+            </Badge>
+          </button>
+          <div
+            className={`absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground transition-all duration-300 ${
+              showCopied 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-1 pointer-events-none'
+            }`}
+          >
+            Copied!
+          </div>
         </div>
         <button
           onClick={createNewNote}
