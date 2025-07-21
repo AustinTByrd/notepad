@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export function ThemeToggle() {
   const { mode, setMode } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Avoid hydration mismatch
   useEffect(() => {
@@ -22,13 +23,23 @@ export function ThemeToggle() {
   }
 
   const toggleMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-    } else if (mode === "dark") {
-      setMode("system");
-    } else {
-      setMode("light");
-    }
+    setIsTransitioning(true);
+    
+    // Start transition
+    setTimeout(() => {
+      if (mode === "light") {
+        setMode("dark");
+      } else if (mode === "dark") {
+        setMode("system");
+      } else {
+        setMode("light");
+      }
+      
+      // End transition after a short delay
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 150);
+    }, 75);
   };
 
   const getIcon = () => {
@@ -40,10 +51,16 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleMode}
-      className="p-2 rounded-lg border border-border bg-background hover:bg-accent transition-colors"
+      className="p-2 rounded-lg border border-border bg-background hover:bg-accent active:scale-95 transition-all duration-150"
       aria-label="Toggle light/dark mode"
     >
-      {getIcon()}
+      <div className={`transition-all duration-150 ${
+        isTransitioning 
+          ? "scale-50 blur-[3px] opacity-70" 
+          : "scale-100 blur-none opacity-100"
+      }`}>
+        {getIcon()}
+      </div>
     </button>
   );
 } 

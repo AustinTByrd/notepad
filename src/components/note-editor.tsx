@@ -166,27 +166,6 @@ export function NoteEditor({ slug }: NoteEditorProps) {
     }, 1200)
   }
 
-  // Check for missing environment variables
-  if (error && error.includes('Missing Supabase environment variables')) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-8">
-        <div className="max-w-md text-center">
-          <h1 className="text-2xl font-bold mb-4">Setup Required</h1>
-          <p className="text-muted-foreground mb-4">
-            Please add your Supabase credentials to continue.
-          </p>
-          <div className="bg-muted p-4 rounded-lg text-left text-sm">
-            <p className="mb-2">Create a <code>.env.local</code> file in your project root with:</p>
-            <pre className="bg-background p-2 rounded text-xs overflow-x-auto">
-{`NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`}
-            </pre>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center">
@@ -197,12 +176,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`}
 
   return (
     <>
-      {/* Theme Controls */}
-      <div className="absolute top-4 right-4 flex items-center gap-3">
-        <ThemeSelector updateTheme={updateTheme} />
-        <ThemeToggle />
-      </div>
-      
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full max-w-[600px]">
         <div className="w-full">
           {/* Editor Content */}
@@ -213,7 +186,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`}
             />
             {!editor?.getText() && !isLoading && !isTransitioning && (
               <div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">
-                Start typing your notes here...
+                What's on your mind...
               </div>
             )}
           </div>
@@ -241,12 +214,16 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`}
       
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <span className="text-sm text-muted-foreground">
-          Note: {slug}
+          {slug}
         </span>
+        <div className="flex items-center gap-3">
+          <ThemeSelector updateTheme={updateTheme} />
+          <ThemeToggle />
+        </div>
         <button
           onClick={createNewNote}
           disabled={isCreatingNew}
-          className={`text-sm transition-all duration-200 ${
+          className={`text-sm transition-all duration-200 active:scale-95 ${
             isCreatingNew 
               ? 'text-foreground/50' 
               : 'text-muted-foreground hover:text-foreground'
