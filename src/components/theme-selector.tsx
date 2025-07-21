@@ -56,7 +56,7 @@ export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
     );
   }
 
-  const currentThemeConfig = themes.find(theme => theme.name === currentTheme);
+
 
   return (
     <Button

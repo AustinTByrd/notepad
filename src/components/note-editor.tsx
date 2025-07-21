@@ -17,7 +17,7 @@ interface NoteEditorProps {
 }
 
 export function NoteEditor({ slug }: NoteEditorProps) {
-  const { content, theme, isLoading, isSaving, showSaved, error, updateContent, updateTheme } = useNote(slug)
+  const { content, theme, isLoading, showSaved, error, updateContent, updateTheme } = useNote(slug)
   const { setTheme } = useTheme()
   const router = useRouter()
   const [isCreatingNew, setIsCreatingNew] = useState(false) // Prevent rapid clicks
@@ -187,9 +187,9 @@ export function NoteEditor({ slug }: NoteEditorProps) {
               className="w-full rounded-b-lg [&_.ProseMirror]:min-h-96 [&_.ProseMirror]:outline-none"
             />
             {!editor?.getText() && !isLoading && !isTransitioning && (
-              <div className="absolute top-4 left-4 text-muted-foreground/50 pointer-events-none">
-                What's on your mind...
-              </div>
+                          <div className="absolute top-4 left-4 text-muted-foreground/50 pointer-events-none">
+              What&apos;s on your mind...
+            </div>
             )}
           </div>
           

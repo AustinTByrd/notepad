@@ -36,7 +36,7 @@ export class NotesService {
       }
 
       return data
-    } catch (err) {
+    } catch {
       // Catch any network or other errors
       return null
     }
@@ -115,7 +115,7 @@ export class NotesService {
       if (error) {
         // Don't throw for last_accessed updates - it's not critical
       }
-    } catch (err) {
+    } catch {
       // Don't throw for last_accessed updates - it's not critical
     }
   }

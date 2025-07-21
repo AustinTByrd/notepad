@@ -6,14 +6,14 @@ import type { Database, TiptapContent } from '@/lib/database.types'
 type Note = Database['public']['Tables']['notes']['Row']
 
 // Global request tracking to persist across Fast Refresh
-const globalRequestTracker = new Map<string, Promise<Note | null>>()
+const globalRequestTracker = new Map<string, Promise<Note | null> & { timestamp: number }>()
 
 // Cleanup old entries periodically to prevent memory leaks
 setInterval(() => {
   const now = Date.now()
   for (const [slug, promise] of globalRequestTracker.entries()) {
     // Remove entries older than 30 seconds
-    if (now - (promise as any).timestamp > 30000) {
+    if (now - promise.timestamp > 30000) {
       globalRequestTracker.delete(slug)
     }
   }
@@ -30,7 +30,7 @@ export function useNote(slug: string) {
       }
     ]
   }) // Start with empty content so editor appears immediately
-  const [isLoading, setIsLoading] = useState(false) // Start with no loading state
+  const [isLoading] = useState(false) // Start with no loading state
   const [isSaving, setIsSaving] = useState(false)
   const [showSaved, setShowSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -121,10 +121,10 @@ export function useNote(slug: string) {
           // Remove from global tracker
           globalRequestTracker.delete(currentSlug)
         }
-      })()
+      })() as Promise<Note | null> & { timestamp: number }
       
       // Add timestamp to the promise for cleanup tracking
-      ;(requestPromise as any).timestamp = Date.now()
+      requestPromise.timestamp = Date.now()
       
       // Store the promise globally
       globalRequestTracker.set(currentSlug, requestPromise)
