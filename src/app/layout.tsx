@@ -25,14 +25,24 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Notepad - Fast, Beautiful Note Taking",
-    template: "%s | Notepad"
+    default: "Super Cute Notes - Fast, Simple Note Taking",
+    template: "%s | Super Cute Notes"
   },
-  description: "A fast, beautiful, and minimal note-taking app. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
+  icons: {
+    icon: [
+      { url: 'https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//favicon-light.svg', media: '(prefers-color-scheme: light)', type: 'image/svg+xml' },
+      { url: 'https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//favicon-dark.svg', media: '(prefers-color-scheme: dark)', type: 'image/svg+xml' },
+      { url: 'https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//favicon-ico.ico', sizes: '16x16 32x32', type: 'image/x-icon' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  description: "A fast, simple, note-taking tool. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
   keywords: ["notepad", "notes", "note taking", "text editor", "markdown", "writing", "productivity"],
-  authors: [{ name: "Notepad App" }],
-  creator: "Notepad App",
-  publisher: "Notepad App",
+  authors: [{ name: "Austin Byrd" }],
+  creator: "Austin Byrd",
+  publisher: "Austin Byrd",
   robots: {
     index: true,
     follow: true,
@@ -47,25 +57,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://notepad.app",
-    siteName: "Notepad",
-    title: "Notepad - Fast, Beautiful Note Taking",
-    description: "A fast, beautiful, and minimal note-taking app. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
+    url: "www.supercutenotes.com",
+    siteName: "Super Cute Notes",
+    title: "Super Cute Notes - Fast, Simple Note Taking",
+    description: "A fast, simple, note-taking tool. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//og-image.png",
         width: 1200,
         height: 630,
-        alt: "Notepad - Fast, Beautiful Note Taking",
+        alt: "Super Cute Notes - Fast, Simple Note Taking",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Notepad - Fast, Beautiful Note Taking",
-    description: "A fast, beautiful, and minimal note-taking app. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
-    images: ["/og-image.png"],
-    creator: "@notepadapp",
+    title: "Super Cute Notes - Fast, Simple Note Taking",
+    description: "A fast, simple, note-taking tool. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
+    images: ["https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//og-image.png"],
+    creator: "@austintbyrd",
   },
   verification: {
     google: "google-site-verification-code",
