@@ -225,7 +225,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
         </div>
       </main>
       
-      <footer className="row-start-3 flex gap-[24px] items-center justify-center w-fit cursor-default">
+      <footer className="row-start-3 flex gap-[24px] items-center justify-center w-fit cursor-default mb-48 sm:mb-0">
         <div className="flex items-center gap-1">
           <ThemeSelector updateTheme={updateTheme} />
           <ThemeToggle />
