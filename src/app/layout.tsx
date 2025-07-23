@@ -30,9 +30,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: 'https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//favicon-light.svg', media: '(prefers-color-scheme: light)', type: 'image/svg+xml' },
-      { url: 'https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//favicon-dark.svg', media: '(prefers-color-scheme: dark)', type: 'image/svg+xml' },
-      { url: 'https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//favicon-ico.ico', sizes: '16x16 32x32', type: 'image/x-icon' },
+      { url: '/favicon-light.svg', media: '(prefers-color-scheme: light)', type: 'image/svg+xml' },
+      { url: '/favicon-dark.svg', media: '(prefers-color-scheme: dark)', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '16x16 32x32', type: 'image/x-icon' },
     ],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
@@ -57,13 +57,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "www.supercutenotes.com",
+    url: "https://www.supercutenotes.com",
     siteName: "Super Cute Notes",
     title: "Super Cute Notes - Fast, Simple Note Taking",
     description: "A fast, simple, note-taking tool. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
     images: [
       {
-        url: "https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//og-image.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Super Cute Notes - Fast, Simple Note Taking",
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Super Cute Notes - Fast, Simple Note Taking",
     description: "A fast, simple, note-taking tool. Create, edit, and share notes instantly with automatic saving and beautiful themes.",
-    images: ["https://ccfutxepyndgccdnqawe.supabase.co/storage/v1/object/public/metadata//og-image.png"],
+    images: ["/og-image.png"],
     creator: "@austintbyrd",
   },
   verification: {
