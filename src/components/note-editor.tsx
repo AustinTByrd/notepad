@@ -225,7 +225,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
         </div>
       </main>
       
-      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-background/95 border border-border shadow-sm px-4 py-3 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:translate-x-0 sm:bg-transparent sm:backdrop-blur-none sm:border-0 sm:rounded-none sm:shadow-none sm:px-0 sm:py-0 sm:pb-0 row-start-3 flex gap-[24px] pr-6 sm:pr-0 items-center justify-center w-fit max-w-[calc(100vw-2rem)] cursor-default" style={{ borderRadius: 'var(--radius)' }}>
+      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 border border-border rounded-2xl shadow-sm px-4 py-3 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:translate-x-0 sm:border-0 sm:rounded-none sm:shadow-none sm:px-0 sm:py-0 sm:pb-0 row-start-3 flex gap-[24px] pr-6 sm:pr-0 items-center justify-center w-fit max-w-[calc(100vw-2rem)] cursor-default">
         <div className="flex items-center gap-1">
           <ThemeSelector updateTheme={updateTheme} />
           <ThemeToggle />
