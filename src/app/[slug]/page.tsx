@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
   
   if (!note || !note.content) {
     return {
-      title: `${slug} | Notepad`,
-      description: 'A note created with Notepad - Fast, beautiful note taking.',
+      title: `${slug} | Super Cute Notes`,
+      description: 'A note created with Super Cute Notes - Fast, cute note taking.',
       robots: {
         index: false, // Don't index empty notes
         follow: true,
@@ -31,19 +31,19 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
   
   const title = extractTitleFromTiptapContent(note.content)
   const description = createDescriptionFromTiptapContent(note.content)
-  const noteTitle = title || `Note: ${slug}`
+  const noteTitle = title || `${slug}`
   
   return {
     title: noteTitle,
     description: description,
-    keywords: ["note", "notepad", "writing", slug],
-    authors: [{ name: "Notepad User" }],
+    keywords: ["note", "notepad", "writing", "super cute notes", slug],
+    authors: [{ name: "Super Cute Notes User" }],
     openGraph: {
       title: noteTitle,
       description: description,
       type: "article",
-      url: `https://notepad.app/${slug}`,
-      siteName: "Notepad",
+      url: `https://supercutenotes.com/${slug}`,
+      siteName: "Super Cute Notes",
       images: [
         {
           url: `/api/og?slug=${encodeURIComponent(slug)}`,

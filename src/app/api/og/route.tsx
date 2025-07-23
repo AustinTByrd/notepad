@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
       (
         <div
           style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: '#4A1C51',
             width: '100%',
             height: '100%',
             display: 'flex',
@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
         >
           <div
             style={{
-              background: 'rgba(255,255,255,0.95)',
+              background: '#F9F5FA',
               borderRadius: 24,
               padding: 60,
               width: '100%',
@@ -139,7 +139,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: 64,
                 fontWeight: 700,
-                color: '#2d3748',
+                color: '#4A1C51',
                 marginBottom: 30,
                 lineHeight: 1.2,
                 overflow: 'hidden',
@@ -151,7 +151,7 @@ export async function GET(request: NextRequest) {
               <div
                 style={{
                   fontSize: 28,
-                  color: '#4a5568',
+                  color: '#4A1C51',
                   lineHeight: 1.4,
                   marginBottom: 40,
                   overflow: 'hidden',
@@ -171,7 +171,7 @@ export async function GET(request: NextRequest) {
               <div
                 style={{
                   fontSize: 24,
-                  color: '#667eea',
+                  color: '#4A1C51',
                   fontWeight: 600,
                 }}
               >
@@ -180,7 +180,7 @@ export async function GET(request: NextRequest) {
               <div
                 style={{
                   fontSize: 20,
-                  color: '#a0aec0',
+                  color: '#4A1C51',
                 }}
               >
                 {new Date(note.updated_at).toLocaleDateString()}
