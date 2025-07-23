@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
                 marginBottom: 40,
               }}
             >
-              Notepad
+              Super Cute Notes
             </div>
             <div
               style={{
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
                 maxWidth: 800,
               }}
             >
-              Fast, Beautiful Note Taking
+              Fast, Simple Note Taking
             </div>
           </div>
         ),
@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
                 textAlign: 'center',
               }}
             >
-              New Note · Notepad
+              New Note · Super Cute Notes
             </div>
           </div>
         ),
@@ -175,7 +175,7 @@ export async function GET(request: NextRequest) {
                   fontWeight: 600,
                 }}
               >
-                Notepad
+                Super Cute Notes
               </div>
               <div
                 style={{
@@ -220,7 +220,7 @@ export async function GET(request: NextRequest) {
               marginBottom: 40,
             }}
           >
-            Notepad
+            Super Cute Notes
           </div>
           <div
             style={{
@@ -229,7 +229,7 @@ export async function GET(request: NextRequest) {
               textAlign: 'center',
             }}
           >
-            Fast, Beautiful Note Taking
+            Fast, Simple Note Taking
           </div>
         </div>
       ),
