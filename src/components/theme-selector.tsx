@@ -22,30 +22,25 @@ export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
   const cycleToNextTheme = async () => {
     setIsTransitioning(true);
     
-    // Start transition
-    setTimeout(async () => {
-      const currentIndex = themes.findIndex(theme => theme.name === currentTheme);
-      const nextIndex = (currentIndex + 1) % themes.length;
-      const nextTheme = themes[nextIndex];
-      
-      // First update the visual theme
-      setTheme(nextTheme.name);
-      
-      // Then update the database if we're in a note context
-      if (updateTheme) {
-        try {
-          await updateTheme(nextTheme.name);
-        } catch (error) {
-          console.error('Failed to save theme to database:', error);
-          // Theme is still applied visually even if database update fails
-        }
-      }
-      
-      // End transition after a short delay
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 150);
-    }, 75);
+    const currentIndex = themes.findIndex(theme => theme.name === currentTheme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    const nextTheme = themes[nextIndex];
+    
+    // Update the visual theme immediately
+    setTheme(nextTheme.name);
+    
+    // Update the database if we're in a note context (don't wait for it)
+    if (updateTheme) {
+      updateTheme(nextTheme.name).catch((error) => {
+        console.error('Failed to save theme to database:', error);
+        // Theme is still applied visually even if database update fails
+      });
+    }
+    
+    // End transition after a short delay
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 150);
   };
 
   if (!mounted) {

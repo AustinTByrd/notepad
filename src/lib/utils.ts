@@ -108,3 +108,82 @@ export function generateMemorableSlug(): string {
   const randomAnimal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)]
   return `${randomDescriptor}-${randomAnimal}`
 }
+
+/**
+ * Extract plain text from TiptapContent for metadata and descriptions
+ */
+export function extractTextFromTiptapContent(content: any): string {
+  if (!content) return ''
+  
+  let text = ''
+  
+  // Handle text nodes
+  if (content.text) {
+    text += content.text
+  }
+  
+  // Recursively process content array
+  if (content.content && Array.isArray(content.content)) {
+    for (const node of content.content) {
+      const nodeText = extractTextFromTiptapContent(node)
+      if (nodeText) {
+        text += (text && !text.endsWith(' ') ? ' ' : '') + nodeText
+      }
+    }
+  }
+  
+  return text.trim()
+}
+
+/**
+ * Extract the title (first line or heading) from TiptapContent
+ */
+export function extractTitleFromTiptapContent(content: any): string {
+  if (!content || !content.content) return ''
+  
+  // Look for the first heading or paragraph with content
+  for (const node of content.content) {
+    if (node.type === 'heading' && node.content) {
+      const headingText = extractTextFromTiptapContent(node)
+      if (headingText.trim()) {
+        return headingText.trim()
+      }
+    }
+    
+    if (node.type === 'paragraph' && node.content) {
+      const paragraphText = extractTextFromTiptapContent(node)
+      if (paragraphText.trim()) {
+        // Return first line or first 60 characters as title
+        const firstLine = paragraphText.split('\n')[0].trim()
+        return firstLine.length > 60 ? firstLine.substring(0, 57) + '...' : firstLine
+      }
+    }
+  }
+  
+  return ''
+}
+
+/**
+ * Create a description from TiptapContent
+ */
+export function createDescriptionFromTiptapContent(content: any, maxLength: number = 160): string {
+  const fullText = extractTextFromTiptapContent(content)
+  
+  if (!fullText) {
+    return 'A note created with Notepad - Fast, beautiful note taking.'
+  }
+  
+  if (fullText.length <= maxLength) {
+    return fullText
+  }
+  
+  // Truncate at word boundary
+  const truncated = fullText.substring(0, maxLength)
+  const lastSpace = truncated.lastIndexOf(' ')
+  
+  if (lastSpace > maxLength * 0.8) {
+    return truncated.substring(0, lastSpace) + '...'
+  }
+  
+  return truncated + '...'
+}

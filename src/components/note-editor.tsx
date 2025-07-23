@@ -3,8 +3,9 @@
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ThemeSelector } from "@/components/theme-selector"
 import { useNote } from "@/hooks/use-note"
+import { useFontLoading } from "@/hooks/use-font-loading"
 import { useTheme } from "@/lib/themes"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -18,11 +19,20 @@ interface NoteEditorProps {
 
 export function NoteEditor({ slug }: NoteEditorProps) {
   const { content, theme, isLoading, showSaved, error, updateContent, updateTheme } = useNote(slug)
-  const { setTheme } = useTheme()
+  const { setTheme, currentTheme } = useTheme()
+  const { fontsLoaded } = useFontLoading()
   const router = useRouter()
   const [isCreatingNew, setIsCreatingNew] = useState(false) // Prevent rapid clicks
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [showCopied, setShowCopied] = useState(false)
+  const lastAppliedTheme = useRef<string | null>(null)
+  
+  // Initialize lastAppliedTheme with current theme to prevent unnecessary updates
+  useEffect(() => {
+    if (currentTheme && !lastAppliedTheme.current) {
+      lastAppliedTheme.current = currentTheme
+    }
+  }, [currentTheme])
 
   // Configure Tiptap editor
   const editor = useEditor({
@@ -129,12 +139,13 @@ export function NoteEditor({ slug }: NoteEditorProps) {
     }
   }, [editor, content, slug])
 
-  // Apply the note's theme when it loads
+  // Apply the note's theme when it loads (only if different from current)
   useEffect(() => {
-    if (theme) {
+    if (theme && theme !== lastAppliedTheme.current && !isLoading) {
       setTheme(theme)
+      lastAppliedTheme.current = theme
     }
-  }, [theme, setTheme])
+  }, [theme, setTheme, isLoading])
 
   // Auto-focus the editor when it's ready and the note is empty
   useEffect(() => {
@@ -168,7 +179,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
     }, 1200)
   }
 
-  if (isLoading) {
+  if (isLoading || !fontsLoaded) {
     return (
       <div className="flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground"></div>

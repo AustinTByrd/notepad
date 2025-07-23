@@ -189,7 +189,8 @@ export function useNote(slug: string) {
       const updatedNote = await notesService.current.updateTheme(slug, newTheme)
       if (updatedNote) {
         setNote(updatedNote)
-        setTheme(newTheme)
+        // Don't call setTheme here since the visual theme was already updated
+        // This prevents the flash of default theme
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update theme')
