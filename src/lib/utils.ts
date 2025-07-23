@@ -186,7 +186,7 @@ export function createDescriptionFromTiptapContent(content: TiptapNode | null | 
   const fullText = extractTextFromTiptapContent(content)
   
   if (!fullText) {
-    return 'A note created with Notepad - Fast, beautiful note taking.'
+    return 'A note created with Super Cute Notes - Fast, simple note taking.'
   }
   
   if (fullText.length <= maxLength) {

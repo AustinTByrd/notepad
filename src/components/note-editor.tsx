@@ -225,7 +225,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
         </div>
       </main>
       
-      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 border border-border rounded-2xl shadow-sm px-4 py-3 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:translate-x-0 sm:border-0 sm:rounded-none sm:shadow-none sm:px-0 sm:py-0 sm:pb-0 row-start-3 flex gap-[24px] pr-6 sm:pr-0 items-center justify-center w-fit max-w-[calc(100vw-2rem)] cursor-default">
+      <footer className="row-start-3 flex gap-[24px] items-center justify-center w-fit cursor-default">
         <div className="flex items-center gap-1">
           <ThemeSelector updateTheme={updateTheme} />
           <ThemeToggle />
@@ -239,9 +239,9 @@ export function NoteEditor({ slug }: NoteEditorProps) {
               setShowCopied(true)
               setTimeout(() => setShowCopied(false), 2000)
             }}
-            className="cursor-pointer transition-all duration-200 active:scale-95 p-1 sm:p-0 "
+            className="cursor-pointer transition-all duration-200 active:scale-95"
           >
-            <Badge variant="outline" className="text-xs sm:text-xs text-muted-foreground hover:text-foreground px-3 py-2 sm:px-2.5 sm:py-1 cursor-default">
+            <Badge variant="outline" className="text-xs text-muted-foreground hover:text-foreground px-2.5 py-1 cursor-default">
               {slug}
             </Badge>
           </button>
@@ -258,13 +258,13 @@ export function NoteEditor({ slug }: NoteEditorProps) {
         <button
           onClick={createNewNote}
           disabled={isCreatingNew}
-          className={`text-sm sm:text-sm transition-all duration-200 active:scale-95 whitespace-nowrap py-2 px-0 sm:py-0 ${
+          className={`text-sm transition-all duration-200 active:scale-95 whitespace-nowrap ${
             isCreatingNew 
               ? 'text-foreground/50' 
               : 'text-muted-foreground hover:text-foreground'
           }`}
         >
-          New Note
+          New
         </button>
       </footer>
     </>
