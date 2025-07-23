@@ -45,8 +45,8 @@ export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" className="p-2">
-        <Palette className="h-5 w-5" />
+      <Button variant="ghost" size="icon" className="p-3 sm:p-2">
+        <Palette className="h-6 w-6 sm:h-5 sm:w-5" />
       </Button>
     );
   }
@@ -58,7 +58,7 @@ export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
       variant="ghost"
       size="icon"
       onClick={cycleToNextTheme}
-      className="p-2 active:scale-95 transition-all duration-150"
+      className="p-3 sm:p-2 active:scale-95 transition-all duration-150"
       aria-label={`Switch theme`}
     >
       <div className={`transition-all duration-150 ${
@@ -66,7 +66,7 @@ export function ThemeSelector({ updateTheme }: ThemeSelectorProps) {
           ? "scale-50 blur-[2px] opacity-70" 
           : "scale-100 blur-none opacity-100"
       }`}>
-        <Palette className="h-5 w-5" />
+        <Palette className="h-6 w-6 sm:h-5 sm:w-5" />
       </div>
     </Button>
   );
