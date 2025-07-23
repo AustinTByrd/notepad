@@ -5,6 +5,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// Tiptap content types
+interface TiptapTextNode {
+  text: string
+  type?: string
+  marks?: Array<{ type: string; attrs?: Record<string, unknown> }>
+}
+
+interface TiptapContentNode {
+  type: string
+  content?: TiptapNode[]
+  attrs?: Record<string, unknown>
+  text?: string
+}
+
+type TiptapNode = TiptapTextNode | TiptapContentNode
+
 // Simple descriptors that toddlers can understand (colors, shapes, numbers)
 const DESCRIPTORS = [
   // Colors
@@ -112,18 +128,18 @@ export function generateMemorableSlug(): string {
 /**
  * Extract plain text from TiptapContent for metadata and descriptions
  */
-export function extractTextFromTiptapContent(content: any): string {
+export function extractTextFromTiptapContent(content: TiptapNode | null | undefined): string {
   if (!content) return ''
   
   let text = ''
   
   // Handle text nodes
-  if (content.text) {
+  if ('text' in content && content.text) {
     text += content.text
   }
   
   // Recursively process content array
-  if (content.content && Array.isArray(content.content)) {
+  if ('content' in content && content.content && Array.isArray(content.content)) {
     for (const node of content.content) {
       const nodeText = extractTextFromTiptapContent(node)
       if (nodeText) {
@@ -138,19 +154,19 @@ export function extractTextFromTiptapContent(content: any): string {
 /**
  * Extract the title (first line or heading) from TiptapContent
  */
-export function extractTitleFromTiptapContent(content: any): string {
-  if (!content || !content.content) return ''
+export function extractTitleFromTiptapContent(content: TiptapNode | null | undefined): string {
+  if (!content || !('content' in content) || !content.content) return ''
   
   // Look for the first heading or paragraph with content
   for (const node of content.content) {
-    if (node.type === 'heading' && node.content) {
+    if (node.type === 'heading' && 'content' in node && node.content) {
       const headingText = extractTextFromTiptapContent(node)
       if (headingText.trim()) {
         return headingText.trim()
       }
     }
     
-    if (node.type === 'paragraph' && node.content) {
+    if (node.type === 'paragraph' && 'content' in node && node.content) {
       const paragraphText = extractTextFromTiptapContent(node)
       if (paragraphText.trim()) {
         // Return first line or first 60 characters as title
@@ -166,7 +182,7 @@ export function extractTitleFromTiptapContent(content: any): string {
 /**
  * Create a description from TiptapContent
  */
-export function createDescriptionFromTiptapContent(content: any, maxLength: number = 160): string {
+export function createDescriptionFromTiptapContent(content: TiptapNode | null | undefined, maxLength: number = 160): string {
   const fullText = extractTextFromTiptapContent(content)
   
   if (!fullText) {
