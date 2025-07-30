@@ -120,8 +120,9 @@ const ANIMALS = [
 ]
 
 export function generateMemorableSlug(): string {
-  const randomDescriptor = DESCRIPTORS[Math.floor(Math.random() * DESCRIPTORS.length)]
-  const randomAnimal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)]
+  // Use crypto.getRandomValues for cryptographically secure random numbers
+  const randomDescriptor = DESCRIPTORS[crypto.getRandomValues(new Uint32Array(1))[0] % DESCRIPTORS.length]
+  const randomAnimal = ANIMALS[crypto.getRandomValues(new Uint32Array(1))[0] % ANIMALS.length]
   return `${randomDescriptor}-${randomAnimal}`
 }
 
