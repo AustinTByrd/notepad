@@ -9,6 +9,8 @@ import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
+import { createLowlight, all } from 'lowlight'
 import type { TiptapContent } from "@/lib/database.types"
 import { generateMemorableSlug } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -16,6 +18,8 @@ import { Badge } from "@/components/ui/badge"
 interface NoteEditorProps {
   slug: string
 }
+
+const lowlight = createLowlight(all)
 
 export function NoteEditor({ slug }: NoteEditorProps) {
   const { content, theme, isLoading, showSaved, error, updateContent, updateTheme } = useNote(slug)
@@ -38,6 +42,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        codeBlock: false,
         // Configure basic rich text features
         bold: {
           HTMLAttributes: {
@@ -57,11 +62,6 @@ export function NoteEditor({ slug }: NoteEditorProps) {
         code: {
           HTMLAttributes: {
             class: 'bg-muted px-1 py-0.5 rounded text-sm font-mono',
-          },
-        },
-        codeBlock: {
-          HTMLAttributes: {
-            class: 'bg-muted p-4 rounded-lg font-mono text-sm my-4',
           },
         },
         blockquote: {
@@ -86,6 +86,15 @@ export function NoteEditor({ slug }: NoteEditorProps) {
           },
         },
       }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        enableTabIndentation: true,
+        defaultLanguage: 'plaintext',
+        languageClassPrefix: 'language-',
+        HTMLAttributes: {
+          class: 'bg-muted/50 border border-border p-4 rounded-lg font-mono text-sm my-4 overflow-x-auto',
+        },
+      }),
     ],
     content: {
       type: 'doc',
@@ -108,6 +117,21 @@ export function NoteEditor({ slug }: NoteEditorProps) {
           editor?.chain().focus().toggleBulletList().run()
           return true
         }
+        
+        // Add keyboard shortcut for code blocks (Ctrl+Shift+C)
+        if (event.key === 'C' && event.ctrlKey && event.shiftKey) {
+          event.preventDefault()
+          editor?.chain().focus().toggleCodeBlock().run()
+          return true
+        }
+        
+        // Add keyboard shortcut for inline code (Ctrl+`)
+        if (event.key === '`' && event.ctrlKey) {
+          event.preventDefault()
+          editor?.chain().focus().toggleCode().run()
+          return true
+        }
+        
         return false
       },
       attributes: {
@@ -195,12 +219,12 @@ export function NoteEditor({ slug }: NoteEditorProps) {
           <div className="relative">
             <EditorContent 
               editor={editor} 
-              className="w-full rounded-b-lg [&_.ProseMirror]:min-h-96 [&_.ProseMirror]:outline-none"
+              className="w-full rounded-lg [&_.ProseMirror]:min-h-96 [&_.ProseMirror]:outline-none"
             />
             {!editor?.getText() && !isLoading && !isTransitioning && (
-                          <div className="absolute top-4 left-4 text-muted-foreground/50 pointer-events-none">
-              What&apos;s on your mind...
-            </div>
+              <div className="absolute top-4 left-4 text-muted-foreground/50 pointer-events-none">
+                What&apos;s on your mind...
+              </div>
             )}
           </div>
           
