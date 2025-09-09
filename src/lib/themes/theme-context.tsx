@@ -14,6 +14,7 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ children, defaultTheme = "default" }: ThemeProviderProps) {
   const { theme: nextTheme, setTheme: setNextTheme } = useNextTheme();
+  const { resolvedTheme } = useNextTheme();
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
   const [mounted, setMounted] = useState(false);
 
@@ -33,8 +34,9 @@ export function ThemeProvider({ children, defaultTheme = "default" }: ThemeProvi
     setCurrentTheme(themeName);
     localStorage.setItem("theme-preset", themeName);
     
-    // Apply CSS custom properties
-    applyThemeVariables(theme, nextTheme as ThemeMode);
+    // Apply CSS custom properties (prefer resolvedTheme when in system mode)
+    const modeToApply: ThemeMode = (nextTheme === "system" ? (resolvedTheme as ThemeMode) : (nextTheme as ThemeMode)) || "light";
+    applyThemeVariables(theme, modeToApply);
   };
 
   const setMode = (mode: ThemeMode) => {
@@ -45,10 +47,11 @@ export function ThemeProvider({ children, defaultTheme = "default" }: ThemeProvi
     if (mounted && currentTheme) {
       const theme = themes.find((t: ThemeConfig) => t.name === currentTheme);
       if (theme) {
-        applyThemeVariables(theme, nextTheme as ThemeMode);
+        const modeToApply: ThemeMode = (nextTheme === "system" ? (resolvedTheme as ThemeMode) : (nextTheme as ThemeMode)) || "light";
+        applyThemeVariables(theme, modeToApply);
       }
     }
-  }, [currentTheme, nextTheme, mounted]);
+  }, [currentTheme, nextTheme, resolvedTheme, mounted]);
 
   const contextValue: ThemeContextType = {
     currentTheme,

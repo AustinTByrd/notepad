@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { ThemeProvider } from "@/lib/themes";
 import { PageTransition } from "@/components/page-transition";
+import { DynamicCodeTheme } from "@/components/dynamic-code-theme";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -92,10 +93,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link 
-          rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.0/styles/github-dark.min.css"
-        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
@@ -107,6 +104,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeProvider defaultTheme="default">
+            <DynamicCodeTheme />
             <PageTransition>
               {children}
             </PageTransition>
