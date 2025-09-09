@@ -213,7 +213,7 @@ export function NoteEditor({ slug }: NoteEditorProps) {
 
   return (
     <>
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full max-w-[600px] pb-20 sm:pb-0">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full max-w-[800px] pb-20 sm:pb-0">
         <div className="w-full">
           {/* Editor Content */}
           <div className="relative">
